@@ -979,10 +979,10 @@
     <div class="hero-left">
       <!-- AUTHOR BLOCK -->
       <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.4rem;opacity:0;animation:fadeUp 0.7s 0.2s forwards;">
-        <div class="nav-avatar" title="Changer la photo" style="width:32px;height:32px;">
-          <img id="avatar-img" src="" alt="" style="display:none;">
+        <div class="nav-avatar" style="width:42px;height:42px;">
+          <!-- Remplace src="" par ton lien : src="https://..." -->
+          <img id="avatar-img" src="https://i.pinimg.com/1200x/cb/c6/c0/cbc6c05daa0aca9b25fdeec06e20175d.jpg" alt="Walter Sullivan" style="display:none;" onload="this.style.display='block';document.getElementById('avatar-placeholder').style.display='none'">
           <span class="nav-avatar-placeholder" id="avatar-placeholder">👤</span>
-          <input class="nav-avatar-input" type="file" accept="image/*" onchange="loadAvatar(event)">
         </div>
         <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--muted);"
           data-fr="par <span style='color:var(--red)'>Walter Sullivan</span>"
@@ -1008,10 +1008,10 @@
       </h1>
       <div class="hero-divider"></div>
       <p class="hero-desc"
-        data-fr="Édition collector Special Double DVD (VW047E1) — dump bit-perfect vérifié 7 fois sur 3 installations distinctes d'Arch Linux. Hash MD5, SHA1 et CRC32 confirmés."
-        data-en="Special Double DVD collector edition (VW047E1) — bit-perfect dump verified 7 times across 3 separate Arch Linux installations. MD5, SHA1, and CRC32 hashes confirmed."
-        data-ja="スペシャル ダブルDVD コレクター版（VW047E1）— 3つの独立したArch Linuxインストールで7回検証されたビットパーフェクトダンプ。MD5、SHA1、CRC32ハッシュ確認済み。">
-        Édition collector Special Double DVD (VW047E1) — dump bit-perfect vérifié 7 fois sur 3 installations distinctes d'Arch Linux. Hash MD5, SHA1 et CRC32 confirmés.
+        data-fr="Édition collector Special Double DVD (VW047E1) — dump bit-perfect vérifié 7 fois sur 3 installations distinctes d'Arch Linux. Hash MD5, SHA1 et CRC32 Pour vous permettre la comparaison en sachant que mon dump possède le même hash connu par redump."
+        data-en="Special Double DVD collector edition (VW047E1) — bit-perfect dump verified 7 times across 3 separate Arch Linux installations. MD5, SHA1, and CRC32 hashes To enable you to compare, bearing in mind that my dump has the same hash known by redump.."
+        data-ja="スペシャル ダブルDVD コレクター版（VW047E1）— 3つの独立したArch Linuxインストールで7回検証されたビットパーフェクトダンプ。MD5、SHA1、CRC32比較できるように、私のダンプがredumpで知られるのと同じハッシュを持つことを念頭に置いてください。">
+        Édition collector Special Double DVD (VW047E1) — dump bit-perfect vérifié 7 fois sur 3 installations distinctes d'Arch Linux. Hash MD5, SHA1 et CRC32 Pour vous permettre de comparer, gardez à l'esprit que ma sauvegarde a le même hachage que celui connu par redump..
       </p>
       <div class="hero-meta">
         <div class="hero-meta-row">
@@ -1024,7 +1024,7 @@
         </div>
         <div class="hero-meta-row">
           <span class="dot"></span>
-          <span data-fr="DVD2 — premier dump documenté publiquement" data-en="DVD2 — first publicly documented dump" data-ja="DVD2 — 最初の公開ダンプ">DVD2 — premier dump documenté publiquement</span>
+          <span data-fr="DVD2 — premier dump documenté publiquement" data-en="DVD2 — first publicly documented dump(potentially)" data-ja="DVD2 — 最初の公開ダンプ潜在的に">DVD2 — premier dump documenté publiquement (potentiellement)</span>
         </div>
       </div>
     </div>
@@ -1039,8 +1039,8 @@
           <div class="stat-label" data-fr="Checksums" data-en="Checksums" data-ja="チェックサム">Checksums</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-num">33</div>
-          <div class="stat-label" data-fr="Photos HQ" data-en="HQ photos" data-ja="高画質写真">Photos HQ</div>
+          <div class="stat-num">25</div>
+          <div class="stat-label" data-fr="Photos" data-en="photos" data-ja="高画質写真">Photos</div>
         </div>
         <div class="stat-cell">
           <div class="stat-num">7<span>.6</span></div>
@@ -1132,7 +1132,7 @@
             <div class="disc-item" data-fr="Jeu complet" data-en="Full game" data-ja="完全なゲーム">Jeu complet</div>
             <div class="disc-item" data-fr="Cinématiques in-engine" data-en="In-engine cutscenes" data-ja="インエンジン カットシーン">Cinématiques in-engine</div>
             <div class="disc-item">Born from a Wish</div>
-            <div class="disc-item">Matrix: Sony DADC IFPI L557</div>
+            <div class="disc-item">just a magnificent disc</div>
           </div>
         </div>
         <div class="disc">
@@ -1150,7 +1150,7 @@
             <div class="disc-item" data-fr="Biographies développeurs" data-en="Developer biographies" data-ja="開発者プロフィール">Biographies développeurs</div>
             <div class="disc-item">Fun TV Special</div>
             <div class="disc-item" data-fr="DVD@ccess — contenu PC" data-en="DVD@ccess — PC content" data-ja="DVD@ccess — PCコンテンツ">DVD@ccess — contenu PC</div>
-            <div class="disc-item">Matrix: Sony DADC IFPI L556</div>
+            <div class="disc-item">A magnificent second dvd</div>
           </div>
         </div>
       </div>
@@ -1158,9 +1158,14 @@
         <span class="banner-icon">✓</span>
         <span
           data-fr="Hash DVD2 absent de Redump — premier dump documenté publiquement de ce disque"
-          data-en="DVD2 hash not found in Redump — first publicly documented dump of this disc"
-          data-ja="DVD2のハッシュはRedumpに未登録 — このディスクの最初の公開ダンプ">
-          Hash DVD2 absent de Redump — premier dump documenté publiquement de ce disque
+          data-en="DVD2 hash not found in Redump Hash DVD2 missing from Redump However, the second disc containing the making-of footage was not recorded by Redump. The first disc is in perfect condition and the dump is perfect, so we determined that the second disc was also perfect, just like the first known disc.
+          Since I couldn't find any comparisons online, I think the HASH for this disc, as far as I know, is the first one that can be easily found."
+          data-ja="DVD2なお、メイキング映像を収録した2枚目のディスクはredumpで記録されていません。1枚目のディスクは完璧な状態で、ダンプも完璧であるため、既知の1枚目と同様に、2枚目も完璧であると判断しています。
+
+オンラインで比較対象が見つからなかったため、私の知るこのディスクのHASHは、簡単に検索できる最初のものだと思います。">
+          Hash DVD2 absent de Redump Cependant, le deuxième disque contenant les images de fabrication (making of )n'a pas été enregistré par redump. Le premier disque est en parfait état et le dump est parfait, nous avons donc déterminé que le deuxième disque était également parfait, tout comme le premier disque connu.
+
+Comme je n'ai trouvé aucune comparaison en ligne, je pense que le HASH de ce disque, tel que je le connais, est le premier que l'on peut trouver facilement.
         </span>
       </div>
 
@@ -1174,25 +1179,25 @@
       <div class="disc-photo-grid">
         <!-- Remplace src="" par ton lien : src="photos/disc1-front.jpg" ou URL -->
         <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-1')">
-          <img id="disc-img-1" src="" alt="DVD 01 Recto" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-1').style.display='none'">
+          <img id="disc-img-1" src="https://i.ibb.co/mr6Gyr1d/IMG-0191.jpg" alt="DVD 01 Recto" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-1').style.display='none'">
           <div class="disc-photo-placeholder" id="disc-ph-1"><span class="ico">💿</span>DVD 01 — RECTO</div>
           <div class="disc-photo-label">DVD 01 — Recto</div>
           <div class="g-overlay"><span>AGRANDIR</span></div>
         </div>
         <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-2')">
-          <img id="disc-img-2" src="" alt="DVD 01 Verso" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-2').style.display='none'">
+          <img id="disc-img-2" src="https://i.ibb.co/LXkPqrpg/IMG-0192.jpg" alt="DVD 01 Verso" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-2').style.display='none'">
           <div class="disc-photo-placeholder" id="disc-ph-2"><span class="ico">💿</span>DVD 01 — VERSO</div>
           <div class="disc-photo-label">DVD 01 — Verso</div>
           <div class="g-overlay"><span>AGRANDIR</span></div>
         </div>
         <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-3')">
-          <img id="disc-img-3" src="" alt="DVD 02 Recto" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-3').style.display='none'">
+          <img id="disc-img-3" src="https://i.ibb.co/yFKSGYdL/IMG-0193.jpg" alt="DVD 02 Recto" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-3').style.display='none'">
           <div class="disc-photo-placeholder" id="disc-ph-3"><span class="ico">📀</span>DVD 02 — RECTO</div>
           <div class="disc-photo-label">DVD 02 — Recto</div>
           <div class="g-overlay"><span>AGRANDIR</span></div>
         </div>
         <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-4')">
-          <img id="disc-img-4" src="" alt="DVD 02 Verso" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-4').style.display='none'">
+          <img id="disc-img-4" src="https://i.ibb.co/1GCXbwTN/IMG-0194.jpg" alt="DVD 02 Verso" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-4').style.display='none'">
           <div class="disc-photo-placeholder" id="disc-ph-4"><span class="ico">📀</span>DVD 02 — VERSO</div>
           <div class="disc-photo-label">DVD 02 — Verso</div>
           <div class="g-overlay"><span>AGRANDIR</span></div>
@@ -1223,12 +1228,12 @@
         </div>
         <div class="cs-row">
           <span class="cs-type">SHA1</span>
-          <span class="cs-val" id="d1-sha1">— à compléter —</span>
+          <span class="cs-val" id="d1-sha1">924409de4dc4cabd4a978fae7de94159e57a1c8d</span>
           <button class="cs-copy" onclick="copyHash('d1-sha1',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
         </div>
         <div class="cs-row">
           <span class="cs-type">CRC32</span>
-          <span class="cs-val" id="d1-crc32">— à compléter —</span>
+          <span class="cs-val" id="d1-crc32">4f7a610d</span>
           <button class="cs-copy" onclick="copyHash('d1-crc32',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
         </div>
       </div>
@@ -1242,12 +1247,12 @@
         </div>
         <div class="cs-row">
           <span class="cs-type">SHA1</span>
-          <span class="cs-val" id="d2-sha1">— à compléter —</span>
+          <span class="cs-val" id="d2-sha1">68b04398cd21bf861887310299159582bd911ef9</span>
           <button class="cs-copy" onclick="copyHash('d2-sha1',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
         </div>
         <div class="cs-row">
           <span class="cs-type">CRC32</span>
-          <span class="cs-val" id="d2-crc32">— à compléter —</span>
+          <span class="cs-val" id="d2-crc32">1932447241</span>
           <button class="cs-copy" onclick="copyHash('d2-crc32',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
         </div>
       </div>
@@ -1321,10 +1326,10 @@
       <div class="sec-head">
         <div class="sec-num">05</div>
         <h2 class="sec-title"
-          data-fr="33 photos <em>ultra HQ</em>"
-          data-en="33 <em>ultra HQ</em> photos"
+          data-fr="25 photos <em></em>"
+          data-en="25 <em></em> photos"
           data-ja="33枚の<em>超高画質</em>写真">
-          33 photos <em>ultra HQ</em>
+          25 photos everything, absolutely everything <em></em>
         </h2>
       </div>
       <div class="gallery" id="gallery-grid"></div>
@@ -1355,35 +1360,30 @@
     //           ou chemin local : "photos/01.jpg"
     // ════════════════════════════════════════════════════════
     const galleryImages = [
-      null, // 01
-      null, // 02
-      null, // 03
-      null, // 04
-      null, // 05
-      null, // 06
-      null, // 07
-      null, // 08
-      null, // 09
-      null, // 10
-      null, // 11
-      null, // 12
-      null, // 13
-      null, // 14
-      null, // 15
-      null, // 16
-      null, // 17
-      null, // 18
-      null, // 19
-      null, // 20
-      null, // 21
-      null, // 22
-      null, // 23
-      null, // 24
-      null, // 25
-      null, // 26
-      null, // 27
-      null, // 28
-      null, // 29
+      "https://i.ibb.co/8nnQ9DRG/IMG-0159.jpg", // 01
+      "https://i.ibb.co/TMWPhWtd/IMG-0160.jpg", // 02
+      "https://i.ibb.co/sdW6CV3k/IMG-0163.jpg", // 06
+      "https://i.ibb.co/4nYR8KyT/IMG-0167.jpg", // 09
+      "https://i.ibb.co/hJ1f40ZK/IMG-0168.jpg", // 10
+      "https://i.ibb.co/3YCNScJx/IMG-0177.jpg", // 11
+      "https://i.ibb.co/Cpcdzmgc/IMG-0173.jpg", // 12
+      "https://i.ibb.co/1YnQC6xm/IMG-0178.jpg", // 13
+      "https://i.ibb.co/8gNddMv5/IMG-0172.jpg", // 14
+      "https://i.ibb.co/XrgJfsV4/IMG-0171.jpg", // 15
+      "https://i.ibb.co/LXkPqrpg/IMG-0192.jpg", // 16
+      "https://i.ibb.co/99Vm4N9P/IMG-0175.jpg", // 17
+      "https://i.ibb.co/D6qF5RS/IMG-0190.jpg", // 18
+      "https://i.ibb.co/HTnBMSw1/IMG-0187.jpg", // 19
+      "https://i.ibb.co/xKjTYXGZ/IMG-0188.jpg", // 20
+      "https://i.ibb.co/CKDHJMgB/IMG-0186.jpg", // 21
+      "https://i.ibb.co/fdrSwjgs/IMG-0185.jpg", // 22
+      "https://i.ibb.co/Z6P197cx/IMG-0184.jpg", // 23
+      "https://i.ibb.co/606sK6vM/IMG-0183.jpg", // 24
+      "https://i.ibb.co/hvtGbBC/IMG-0182.jpg", // 25
+      "https://i.ibb.co/rGBmvDc5/IMG-0181.jpg", // 26
+      "https://i.ibb.co/MksJRGd7/IMG-0180.jpg", // 27
+      "https://i.ibb.co/5WFHPHjQ/IMG-0189.jpg", // 28
+      "https://i.ibb.co/nsCHMv72/IMG-0179.jpg", // 29
       null, // 30
       null, // 31
       null, // 32
@@ -1479,20 +1479,6 @@
         btn.classList.add('ok');
         setTimeout(() => { btn.textContent = btn.dataset[lang] || 'COPY'; btn.classList.remove('ok'); }, 1800);
       });
-    }
-
-    // Avatar upload
-    function loadAvatar(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        const img = document.getElementById('avatar-img');
-        img.src = ev.target.result;
-        img.style.display = 'block';
-        document.getElementById('avatar-placeholder').style.display = 'none';
-      };
-      reader.readAsDataURL(file);
     }
 
     // Lang switch
