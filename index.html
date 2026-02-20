@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Silent Hill 2 — VW047E1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fafaf9;
+      --surface:   #ffffff;
+      --border:    #dedbd6;
+      --border2:   #f0ede8;
+      --red:       #9b1c1c;
+      --red-soft:  rgba(155,28,28,0.06);
+      --red-mid:   rgba(155,28,28,0.15);
+      --dark:      #151515;
+      --mid:       #3a3a3a;
+      --muted:     #9c9890;
+      --faint:     #f4f2ee;
+      --mono:      'Space Mono', monospace;
+      --sans:      'Space Grotesk', 'Noto Sans JP', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--dark);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* Grain */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999;
+    }
+
+    /* ─── LANG SWITCHER ─── */
+    .lang-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 42px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 100;
+    }
+
+    .lang-bar-id {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .lang-bar-id span { color: var(--red); }
+
+    /* ─── AUTHOR IN NAVBAR ─── */
+    .nav-author {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-left: 1px solid var(--border);
+      padding-left: 1rem;
+      margin-left: 0.5rem;
+    }
+
+    .nav-avatar {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      background: var(--faint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .nav-avatar:hover { border-color: var(--red); }
+
+    .nav-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .nav-avatar-placeholder { font-size: 0.7rem; opacity: 0.4; }
+
+    .nav-avatar-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .nav-author-name {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .nav-author-name span { color: var(--red); }
+
+    .lang-btns { display: flex; gap: 0; }
+
+    .lang-btn {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      padding: 0.28rem 0.8rem;
+      background: none;
+      border: 1px solid transparent;
+      border-left: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .lang-btn:first-child { border-left: none; }
+    .lang-btn:hover { color: var(--dark); }
+    .lang-btn.active { color: var(--red); background: var(--red-soft); }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding-top: 42px;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .hero-left {
+      padding: 6rem 3rem 4rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 40%;
+      background: linear-gradient(to top, var(--red-soft), transparent);
+      pointer-events: none;
+    }
+
+    .hero-kicker {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: clamp(3.2rem, 6vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--dark);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-title .line2 {
+      color: var(--red);
+      font-weight: 300;
+      font-style: italic;
+      display: block;
+    }
+
+    .hero-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+      margin: 2rem 0;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.7s forwards;
+    }
+
+    .hero-desc {
+      font-size: 0.88rem;
+      color: var(--mid);
+      font-weight: 300;
+      max-width: 340px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.9s forwards;
+    }
+
+    .hero-meta {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 1.1s forwards;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .hero-meta-row .dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    .hero-meta-row .dot.green { background: #2e7a52; }
+
+    .hero-right {
+      background: var(--faint);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Big decorative kanji/number */
+    .hero-right::before {
+      content: 'II';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 22rem;
+      color: rgba(155,28,28,0.04);
+      letter-spacing: -0.1em;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      position: relative; z-index: 1;
+    }
+
+    .stat-cell {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(8px);
+      padding: 1.2rem;
+    }
+
+    .stat-num {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.04em;
+      color: var(--dark);
+      line-height: 1;
+    }
+
+    .stat-num span { color: var(--red); }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* ─── LAYOUT ─── */
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+
+    section {
+      padding: 5rem 0;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    section.visible { opacity: 1; transform: none; }
+
+    /* ─── SEC HEADER ─── */
+    .sec-head {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: 3rem;
+    }
+
+    .sec-num {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sec-title {
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--dark);
+    }
+
+    .sec-title em { font-style: italic; font-weight: 300; color: var(--red); }
+
+    /* ─── INFO TABLE ─── */
+    .info-table { width: 100%; border-collapse: collapse; }
+
+    .info-table tr { border-bottom: 1px solid var(--border2); }
+    .info-table tr:first-child { border-top: 1px solid var(--border); }
+
+    .info-table tr:hover td { background: rgba(255,255,255,0.8); }
+
+    .info-table td {
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      vertical-align: middle;
+      background: transparent;
+      transition: background 0.15s;
+    }
+
+    .info-table td:first-child {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      width: 200px;
+    }
+
+    .info-table td.red { color: var(--red); font-weight: 500; }
+    .info-table td.code { font-family: var(--mono); font-size: 0.78rem; }
+
+    /* ─── DISCS ─── */
+    .disc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+    .disc {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+
+    .disc:hover {
+      box-shadow: 0 12px 48px rgba(155,28,28,0.08);
+      transform: translateY(-2px);
+    }
+
+    .disc-head {
+      padding: 1.4rem 1.6rem 1rem;
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .disc-tag {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .disc-title-text {
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      margin-top: 0.3rem;
+    }
+
+    .disc-bytes {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--red);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .disc-body { padding: 0; }
+
+    .disc-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.6rem 1.6rem;
+      border-bottom: 1px solid var(--border2);
+      font-size: 0.8rem;
+      color: var(--mid);
+      font-family: var(--mono);
+    }
+
+    .disc-item:last-child { border-bottom: none; }
+    .disc-item::before { content: '—'; color: var(--border); flex-shrink: 0; }
+
+    /* ─── CHECKSUMS ─── */
+    .cs-block { margin-bottom: 3rem; }
+
+    .cs-label {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+    .cs-row {
+      display: grid;
+      grid-template-columns: 64px 1fr 80px;
+      align-items: center;
+      border-bottom: 1px solid var(--border2);
+      transition: background 0.15s;
+    }
+
+    .cs-row:hover { background: var(--surface); }
+
+    .cs-type {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      padding: 0.9rem 1rem;
+      border-right: 1px solid var(--border2);
+    }
+
+    .cs-val {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--dark);
+      padding: 0.9rem 1.2rem;
+      word-break: break-all;
+      letter-spacing: 0.03em;
+    }
+
+    .cs-copy {
+      background: none;
+      border: none;
+      border-left: 1px solid var(--border2);
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 0.9rem 0;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.18s;
+      text-align: center;
+    }
+
+    .cs-copy:hover { color: var(--red); background: var(--red-soft); }
+    .cs-copy.ok { color: #2e7a52; background: rgba(46,122,58,0.05); }
+
+    /* ─── BANNER ─── */
+    .banner {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      border: 1px solid rgba(46,122,58,0.22);
+      background: rgba(46,122,58,0.04);
+      padding: 1rem 1.4rem;
+      margin-top: 2rem;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: #2e7a52;
+    }
+
+    .banner-icon { font-size: 1rem; }
+
+    /* ─── TIMELINE ─── */
+    .timeline { border: 1px solid var(--border); }
+
+    .tl-row {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      align-items: center;
+      border-bottom: 1px solid var(--border2);
+      padding: 0.9rem 1.4rem;
+      gap: 1.5rem;
+      transition: background 0.15s;
+    }
+
+    .tl-row:last-child { border-bottom: none; }
+    .tl-row:hover { background: var(--surface); }
+
+    .tl-id {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      color: var(--red);
+    }
+
+    .tl-desc {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .tl-status {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
+      color: #2e7a52;
+      border: 1px solid rgba(46,122,58,0.25);
+      padding: 0.18rem 0.6rem;
+      background: rgba(46,122,58,0.04);
+      white-space: nowrap;
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .g-slot {
+      background: var(--faint);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .g-slot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s, opacity 0.3s;
+      opacity: 0.85;
+    }
+
+    .g-slot:hover img { transform: scale(1.05); opacity: 1; }
+
+    .g-slot:hover .g-overlay { opacity: 1; }
+
+    .g-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(155,28,28,0.08);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+
+    .g-overlay span {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.18em;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      padding: 0.25rem 0.6rem;
+    }
+
+    .g-placeholder {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .g-placeholder .ico { font-size: 1.1rem; opacity: 0.15; display: block; margin-bottom: 0.3rem; }
+
+    .g-file-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%; height: 100%;
+    }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.3s;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.5);
+      background: none; border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .lightbox-close:hover { color: white; border-color: rgba(255,255,255,0.4); }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.4);
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 1rem 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .lightbox-nav:hover { color: white; border-color: rgba(255,255,255,0.3); }
+    .lightbox-prev { left: 1.5rem; }
+    .lightbox-next { right: 1.5rem; }
+
+    .lightbox-counter {
+      position: absolute;
+      bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-top: 6rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .footer-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .footer-id {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-id span { color: var(--red); }
+
+    .footer-meta {
+      font-family: var(--mono);
+      font-size: 0.54rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .footer-checks {
+      font-family: var(--mono);
+      font-size: 0.54rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ─── AUTHOR CARD ─── */
+    .author-bar {
+      border-top: 1px solid var(--border2);
+      padding: 1.2rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--faint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+
+    .author-avatar:hover { border-color: var(--red); }
+
+    .author-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .author-avatar-placeholder {
+      font-size: 1rem;
+      opacity: 0.3;
+    }
+
+    /* Hidden file input */
+    .avatar-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .author-info { flex: 1; }
+
+    .author-name {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: -0.01em;
+      color: var(--dark);
+    }
+
+    .author-name span { color: var(--red); }
+
+    .author-sub {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .author-hint {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      opacity: 0.6;
+    }
+
+    /* ─── ANIM ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 6rem 1.5rem 3rem; }
+      .disc-grid { grid-template-columns: 1fr; }
+      .tl-row { grid-template-columns: 1fr auto; }
+      .tl-id { display: none; }
+      .cs-row { grid-template-columns: 56px 1fr; }
+      .cs-copy { display: none; }
+      .gallery { grid-template-columns: repeat(2,1fr); }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-checks { text-align: left; }
+      .sec-head { grid-template-columns: 1fr; gap: 0.5rem; }
+    }
+
+    /* ─── JP overrides ─── */
+    body.lang-ja .hero-title,
+    body.lang-ja .sec-title { font-family: 'Noto Sans JP', sans-serif; font-weight: 400; letter-spacing: 0.02em; }
+    body.lang-ja .hero-title .line2 { font-weight: 200; }
+
+    /* ─── DARK MODE ─── */
+    body.dark {
+      --bg:       #111110;
+      --surface:  #1a1916;
+      --border:   #2e2c28;
+      --border2:  #252320;
+      --dark:     #f0ede8;
+      --mid:      #b8b4ae;
+      --muted:    #5a5750;
+      --faint:    #161513;
+      --red-soft: rgba(155,28,28,0.10);
+    }
+
+    body.dark .lang-bar {
+      background: rgba(17,17,16,0.94);
+    }
+
+    body.dark .hero { background: var(--surface); }
+    body.dark .hero-right { background: var(--faint); }
+    body.dark .hero-right::before { color: rgba(155,28,28,0.06); }
+    body.dark .stat-cell { background: rgba(26,25,22,0.9); }
+    body.dark .info-table tr:hover td { background: rgba(255,255,255,0.03); }
+    body.dark .disc { background: var(--surface); }
+    body.dark .disc:hover { box-shadow: 0 12px 48px rgba(0,0,0,0.4); }
+    body.dark .cs-row:hover { background: var(--surface); }
+    body.dark .tl-row:hover { background: var(--surface); }
+    body.dark .g-slot { background: var(--faint); }
+    body.dark footer { background: var(--surface); }
+    body.dark .disc-photo-grid { background: var(--border); border-color: var(--border); }
+    body.dark .disc-photo-slot { background: var(--faint); }
+
+    /* ─── THEME TOGGLE BTN ─── */
+    .theme-btn {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      padding: 0.28rem 0.8rem;
+      background: none;
+      border: none;
+      border-left: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .theme-btn:hover { color: var(--dark); }
+
+    /* ─── DISC PHOTO GRID ─── */
+    .disc-photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .disc-photo-slot {
+      background: var(--faint);
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .disc-photo-slot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.88;
+      transition: opacity 0.3s, transform 0.4s;
+    }
+
+    .disc-photo-slot:hover img { opacity: 1; transform: scale(1.03); }
+
+    .disc-photo-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.5rem 0.8rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), transparent);
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.16em;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+    }
+
+    .disc-photo-placeholder {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    .disc-photo-placeholder .ico { display: block; font-size: 1.2rem; opacity: 0.2; margin-bottom: 0.4rem; }
+
+    .disc-photo-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .disc-photo-section-label {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: 2rem 0 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--border2);
+    }
+  </style>
+</head>
+<body class="lang-fr">
+
+  <!-- LANG BAR -->
+  <nav class="lang-bar">
+    <div class="lang-bar-id"><span>SH2</span> · VW047E1 · SLES-50382</div>
+    <div class="lang-btns">
+      <button class="theme-btn" onclick="toggleTheme()" id="theme-btn">◐ DARK</button>
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <!-- AUTHOR BLOCK -->
+      <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.4rem;opacity:0;animation:fadeUp 0.7s 0.2s forwards;">
+        <div class="nav-avatar" title="Changer la photo" style="width:32px;height:32px;">
+          <img id="avatar-img" src="" alt="" style="display:none;">
+          <span class="nav-avatar-placeholder" id="avatar-placeholder">👤</span>
+          <input class="nav-avatar-input" type="file" accept="image/*" onchange="loadAvatar(event)">
+        </div>
+        <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;color:var(--muted);"
+          data-fr="par <span style='color:var(--red)'>Walter Sullivan</span>"
+          data-en="by <span style='color:var(--red)'>Walter Sullivan</span>"
+          data-ja="制作：<span style='color:var(--red)'>ウォルター・サリヴァン</span>">
+          par <span style="color:var(--red)">Walter Sullivan</span>
+        </div>
+      </div>
+
+      <div class="hero-kicker"
+        data-fr="Archive de préservation · PS2 PAL EU"
+        data-en="Preservation Archive · PS2 PAL EU"
+        data-ja="保存アーカイブ · PS2 PAL EU">
+        Archive de préservation · PS2 PAL EU
+      </div>
+
+      <h1 class="hero-title">
+        SILENT
+        <span class="line2"
+          data-fr="Hill 2"
+          data-en="Hill 2"
+          data-ja="ヒル２">Hill 2</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-desc"
+        data-fr="Édition collector Special Double DVD (VW047E1) — dump bit-perfect vérifié 7 fois sur 3 installations distinctes d'Arch Linux. Hash MD5, SHA1 et CRC32 confirmés."
+        data-en="Special Double DVD collector edition (VW047E1) — bit-perfect dump verified 7 times across 3 separate Arch Linux installations. MD5, SHA1, and CRC32 hashes confirmed."
+        data-ja="スペシャル ダブルDVD コレクター版（VW047E1）— 3つの独立したArch Linuxインストールで7回検証されたビットパーフェクトダンプ。MD5、SHA1、CRC32ハッシュ確認済み。">
+        Édition collector Special Double DVD (VW047E1) — dump bit-perfect vérifié 7 fois sur 3 installations distinctes d'Arch Linux. Hash MD5, SHA1 et CRC32 confirmés.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-row">
+          <span class="dot green"></span>
+          <span data-fr="Redump vérifié" data-en="Redump verified" data-ja="Redump 認証済">Redump vérifié</span>
+        </div>
+        <div class="hero-meta-row">
+          <span class="dot"></span>
+          <span>SLES-50382 · Konami of Europe GmbH · 2001</span>
+        </div>
+        <div class="hero-meta-row">
+          <span class="dot"></span>
+          <span data-fr="DVD2 — premier dump documenté publiquement" data-en="DVD2 — first publicly documented dump" data-ja="DVD2 — 最初の公開ダンプ">DVD2 — premier dump documenté publiquement</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stats">
+        <div class="stat-cell">
+          <div class="stat-num">7<span>×</span></div>
+          <div class="stat-label" data-fr="Dumps identiques" data-en="Identical dumps" data-ja="同一ダンプ">Dumps identiques</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">3<span>+</span></div>
+          <div class="stat-label" data-fr="Checksums" data-en="Checksums" data-ja="チェックサム">Checksums</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">33</div>
+          <div class="stat-label" data-fr="Photos HQ" data-en="HQ photos" data-ja="高画質写真">Photos HQ</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">7<span>.6</span></div>
+          <div class="stat-label">GiB total</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 INFO -->
+  <section id="info">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">01</div>
+        <h2 class="sec-title"
+          data-fr="Informations <em>physiques</em>"
+          data-en="Physical <em>information</em>"
+          data-ja="物理的な<em>情報</em>">
+          Informations <em>physiques</em>
+        </h2>
+      </div>
+      <table class="info-table">
+        <tr>
+          <td data-fr="Titre" data-en="Title" data-ja="タイトル">Titre</td>
+          <td>Silent Hill 2</td>
+        </tr>
+        <tr>
+          <td data-fr="Édition" data-en="Edition" data-ja="エディション">Édition</td>
+          <td class="red" data-fr="Special Double DVD Collector" data-en="Special Double DVD Collector" data-ja="スペシャル ダブルDVD コレクター">Special Double DVD Collector</td>
+        </tr>
+        <tr>
+          <td data-fr="Code produit" data-en="Product code" data-ja="製品コード">Code produit</td>
+          <td class="code">VW047E1</td>
+        </tr>
+        <tr>
+          <td data-fr="Numéro de série" data-en="Serial" data-ja="シリアル番号">Numéro de série</td>
+          <td class="code">SLES-50382</td>
+        </tr>
+        <tr>
+          <td data-fr="Région" data-en="Region" data-ja="リージョン">Région</td>
+          <td data-fr="UE — France" data-en="EU — France" data-ja="EU — フランス">UE — France</td>
+        </tr>
+        <tr>
+          <td data-fr="Date de sortie" data-en="Release date" data-ja="発売日">Date de sortie</td>
+          <td data-fr="22 novembre 2001" data-en="November 22, 2001" data-ja="2001年11月22日">22 novembre 2001</td>
+        </tr>
+        <tr>
+          <td data-fr="Éditeur" data-en="Publisher" data-ja="パブリッシャー">Éditeur</td>
+          <td>Konami of Europe GmbH</td>
+        </tr>
+        <tr>
+          <td data-fr="Code-barres" data-en="Barcode" data-ja="バーコード">Code-barres</td>
+          <td class="code">4012927021125</td>
+        </tr>
+        <tr>
+          <td data-fr="Pressage" data-en="Pressing" data-ja="プレス">Pressage</td>
+          <td data-fr="Sony DADC — Autriche" data-en="Sony DADC — Austria" data-ja="ソニーDADC — オーストリア">Sony DADC — Autriche</td>
+        </tr>
+        <tr>
+          <td data-fr="Plateforme" data-en="Platform" data-ja="プラットフォーム">Plateforme</td>
+          <td>PlayStation 2 — PAL</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 02 DISCS -->
+  <section id="discs">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">02</div>
+        <h2 class="sec-title"
+          data-fr="Les deux <em>disques</em>"
+          data-en="The two <em>discs</em>"
+          data-ja="二枚の<em>ディスク</em>">
+          Les deux <em>disques</em>
+        </h2>
+      </div>
+      <div class="disc-grid">
+        <div class="disc">
+          <div class="disc-head">
+            <div>
+              <div class="disc-tag">DVD — 01</div>
+              <div class="disc-title-text" data-fr="Jeu principal" data-en="Main game" data-ja="メインゲーム">Jeu principal</div>
+            </div>
+            <div class="disc-bytes">3.4 GiB<br>3,628,826,624 B</div>
+          </div>
+          <div class="disc-body">
+            <div class="disc-item" data-fr="Jeu complet" data-en="Full game" data-ja="完全なゲーム">Jeu complet</div>
+            <div class="disc-item" data-fr="Cinématiques in-engine" data-en="In-engine cutscenes" data-ja="インエンジン カットシーン">Cinématiques in-engine</div>
+            <div class="disc-item">Born from a Wish</div>
+            <div class="disc-item">Matrix: Sony DADC IFPI L557</div>
+          </div>
+        </div>
+        <div class="disc">
+          <div class="disc-head">
+            <div>
+              <div class="disc-tag">DVD — 02</div>
+              <div class="disc-title-text" data-fr="Making-of" data-en="Making-of" data-ja="メイキング">Making-of</div>
+            </div>
+            <div class="disc-bytes">4.2 GiB<br>4,501,274,624 B</div>
+          </div>
+          <div class="disc-body">
+            <div class="disc-item" data-fr="The Making Of Silent Hill 2" data-en="The Making Of Silent Hill 2" data-ja="サイレントヒル2 メイキング">The Making Of Silent Hill 2</div>
+            <div class="disc-item" data-fr="Trailers — E3 2000, TGS 2001…" data-en="Trailers — E3 2000, TGS 2001…" data-ja="トレーラー — E3 2000, TGS 2001…">Trailers — E3 2000, TGS 2001…</div>
+            <div class="disc-item" data-fr="Galerie artistique" data-en="Art gallery" data-ja="アートギャラリー">Galerie artistique</div>
+            <div class="disc-item" data-fr="Biographies développeurs" data-en="Developer biographies" data-ja="開発者プロフィール">Biographies développeurs</div>
+            <div class="disc-item">Fun TV Special</div>
+            <div class="disc-item" data-fr="DVD@ccess — contenu PC" data-en="DVD@ccess — PC content" data-ja="DVD@ccess — PCコンテンツ">DVD@ccess — contenu PC</div>
+            <div class="disc-item">Matrix: Sony DADC IFPI L556</div>
+          </div>
+        </div>
+      </div>
+      <div class="banner">
+        <span class="banner-icon">✓</span>
+        <span
+          data-fr="Hash DVD2 absent de Redump — premier dump documenté publiquement de ce disque"
+          data-en="DVD2 hash not found in Redump — first publicly documented dump of this disc"
+          data-ja="DVD2のハッシュはRedumpに未登録 — このディスクの最初の公開ダンプ">
+          Hash DVD2 absent de Redump — premier dump documenté publiquement de ce disque
+        </span>
+      </div>
+
+      <!-- DISC PHOTOS -->
+      <div class="disc-photo-section-label"
+        data-fr="Photos des disques — recto / verso"
+        data-en="Disc photos — front / back"
+        data-ja="ディスク写真 — 表 / 裏">
+        Photos des disques — recto / verso
+      </div>
+      <div class="disc-photo-grid">
+        <!-- Remplace src="" par ton lien : src="photos/disc1-front.jpg" ou URL -->
+        <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-1')">
+          <img id="disc-img-1" src="" alt="DVD 01 Recto" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-1').style.display='none'">
+          <div class="disc-photo-placeholder" id="disc-ph-1"><span class="ico">💿</span>DVD 01 — RECTO</div>
+          <div class="disc-photo-label">DVD 01 — Recto</div>
+          <div class="g-overlay"><span>AGRANDIR</span></div>
+        </div>
+        <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-2')">
+          <img id="disc-img-2" src="" alt="DVD 01 Verso" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-2').style.display='none'">
+          <div class="disc-photo-placeholder" id="disc-ph-2"><span class="ico">💿</span>DVD 01 — VERSO</div>
+          <div class="disc-photo-label">DVD 01 — Verso</div>
+          <div class="g-overlay"><span>AGRANDIR</span></div>
+        </div>
+        <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-3')">
+          <img id="disc-img-3" src="" alt="DVD 02 Recto" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-3').style.display='none'">
+          <div class="disc-photo-placeholder" id="disc-ph-3"><span class="ico">📀</span>DVD 02 — RECTO</div>
+          <div class="disc-photo-label">DVD 02 — Recto</div>
+          <div class="g-overlay"><span>AGRANDIR</span></div>
+        </div>
+        <div class="disc-photo-slot" onclick="openSinglePhoto('disc-img-4')">
+          <img id="disc-img-4" src="" alt="DVD 02 Verso" style="display:none" onload="this.style.display='block';document.getElementById('disc-ph-4').style.display='none'">
+          <div class="disc-photo-placeholder" id="disc-ph-4"><span class="ico">📀</span>DVD 02 — VERSO</div>
+          <div class="disc-photo-label">DVD 02 — Verso</div>
+          <div class="g-overlay"><span>AGRANDIR</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 CHECKSUMS -->
+  <section id="checksums">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">03</div>
+        <h2 class="sec-title"
+          data-fr="Checksums <em>vérifiés</em>"
+          data-en="Verified <em>checksums</em>"
+          data-ja="検証済み<em>チェックサム</em>">
+          Checksums <em>vérifiés</em>
+        </h2>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" data-fr="DVD 01 — Jeu principal" data-en="DVD 01 — Main game" data-ja="DVD 01 — メインゲーム">DVD 01 — Jeu principal</div>
+        <div class="cs-row">
+          <span class="cs-type">MD5</span>
+          <span class="cs-val" id="d1-md5">7bb226626ab6d4704032375ca5a1847a</span>
+          <button class="cs-copy" onclick="copyHash('d1-md5',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
+        </div>
+        <div class="cs-row">
+          <span class="cs-type">SHA1</span>
+          <span class="cs-val" id="d1-sha1">— à compléter —</span>
+          <button class="cs-copy" onclick="copyHash('d1-sha1',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
+        </div>
+        <div class="cs-row">
+          <span class="cs-type">CRC32</span>
+          <span class="cs-val" id="d1-crc32">— à compléter —</span>
+          <button class="cs-copy" onclick="copyHash('d1-crc32',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-label" data-fr="DVD 02 — Making-of" data-en="DVD 02 — Making-of" data-ja="DVD 02 — メイキング">DVD 02 — Making-of</div>
+        <div class="cs-row">
+          <span class="cs-type">MD5</span>
+          <span class="cs-val" id="d2-md5">0e924d84a625a1404050b7a8b2db41ca</span>
+          <button class="cs-copy" onclick="copyHash('d2-md5',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
+        </div>
+        <div class="cs-row">
+          <span class="cs-type">SHA1</span>
+          <span class="cs-val" id="d2-sha1">— à compléter —</span>
+          <button class="cs-copy" onclick="copyHash('d2-sha1',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
+        </div>
+        <div class="cs-row">
+          <span class="cs-type">CRC32</span>
+          <span class="cs-val" id="d2-crc32">— à compléter —</span>
+          <button class="cs-copy" onclick="copyHash('d2-crc32',this)" data-fr="COPIER" data-en="COPY" data-ja="コピー">COPIER</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 DUMPS -->
+  <section id="dumps">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">04</div>
+        <h2 class="sec-title"
+          data-fr="7 dumps <em>identiques</em>"
+          data-en="7 <em>identical</em> dumps"
+          data-ja="7回の<em>同一</em>ダンプ">
+          7 dumps <em>identiques</em>
+        </h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-row">
+          <span class="tl-id" data-fr="DUMP #1" data-en="DUMP #1" data-ja="ダンプ #1">DUMP #1</span>
+          <span class="tl-desc" data-fr="ORIGINAL · Arch Linux · Desktop/Sillenthill/ · dd · /dev/sr0" data-en="ORIGINAL · Arch Linux · Desktop/Sillenthill/ · dd · /dev/sr0" data-ja="オリジナル · Arch Linux · dd · /dev/sr0">ORIGINAL · Arch Linux · Desktop/Sillenthill/ · dd · /dev/sr0</span>
+          <span class="tl-status">VALID</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-id" data-fr="DUMP #2" data-en="DUMP #2" data-ja="ダンプ #2">DUMP #2</span>
+          <span class="tl-desc" data-fr="VÉRIFICATION · même machine · hash identique confirmé" data-en="VERIFICATION · same machine · identical hash confirmed" data-ja="検証 · 同じマシン · 同一ハッシュ確認">VÉRIFICATION · même machine · hash identique confirmé</span>
+          <span class="tl-status">VALID</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-id" data-fr="DUMP #3" data-en="DUMP #3" data-ja="ダンプ #3">DUMP #3</span>
+          <span class="tl-desc" data-fr="VALIDATION FINALE · triple confirmation" data-en="FINAL VALIDATION · triple confirmation" data-ja="最終検証 · トリプル確認">VALIDATION FINALE · triple confirmation</span>
+          <span class="tl-status">VALID</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-id" data-fr="DUMP #4" data-en="DUMP #4" data-ja="ダンプ #4">DUMP #4</span>
+          <span class="tl-desc" data-fr="PRÉ-CLEAN INSTALL · avant installation propre" data-en="PRE-CLEAN INSTALL · before clean install" data-ja="クリーンインストール前">PRÉ-CLEAN INSTALL · avant installation propre</span>
+          <span class="tl-status">VALID</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-id" data-fr="DUMP #5" data-en="DUMP #5" data-ja="ダンプ #5">DUMP #5</span>
+          <span class="tl-desc" data-fr="CLEAN INSTALL · [mary@cleanly] · hash identique" data-en="CLEAN INSTALL · [mary@cleanly] · identical hash" data-ja="クリーンインストール · [mary@cleanly]">CLEAN INSTALL · [mary@cleanly] · hash identique</span>
+          <span class="tl-status">VALID</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-id" data-fr="DUMP #6" data-en="DUMP #6" data-ja="ダンプ #6">DUMP #6</span>
+          <span class="tl-desc" data-fr="SECOND OS · [mary@steady] · confirmation cross-OS" data-en="SECOND OS · [mary@steady] · cross-OS confirmation" data-ja="第2OS · [mary@steady] · クロスOS確認">SECOND OS · [mary@steady] · confirmation cross-OS</span>
+          <span class="tl-status">VALID</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-id" data-fr="DUMP #7" data-en="DUMP #7" data-ja="ダンプ #7">DUMP #7</span>
+          <span class="tl-desc" data-fr="FOR FUN · [mary@steady] · parce que pourquoi pas" data-en="FOR FUN · [mary@steady] · just because" data-ja="楽しみで · [mary@steady] · なぜいけない">FOR FUN · [mary@steady] · parce que pourquoi pas</span>
+          <span class="tl-status">VALID</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕ FERMER</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1);event.stopPropagation()">←</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <button class="lightbox-nav lightbox-next" onclick="navLightbox(1);event.stopPropagation()">→</button>
+    <div class="lightbox-counter" id="lightbox-counter">1 / 33</div>
+  </div>
+
+  <!-- 05 GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">05</div>
+        <h2 class="sec-title"
+          data-fr="33 photos <em>ultra HQ</em>"
+          data-en="33 <em>ultra HQ</em> photos"
+          data-ja="33枚の<em>超高画質</em>写真">
+          33 photos <em>ultra HQ</em>
+        </h2>
+      </div>
+      <div class="gallery" id="gallery-grid"></div>
+      <p id="gallery-count" style="font-family:var(--mono);font-size:0.54rem;color:var(--muted);margin-top:0.8rem;letter-spacing:0.1em;">
+        0 / 33 · cliquer sur un slot pour ajouter une photo · cliquer sur une photo pour agrandir
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-id"><span>Silent Hill 2</span> — VW047E1</div>
+        <div class="footer-meta" data-fr="Archive de préservation · PS2 PAL EU · SLES-50382 · 2024" data-en="Preservation archive · PS2 PAL EU · SLES-50382 · 2024" data-ja="保存アーカイブ · PS2 PAL EU · SLES-50382 · 2024">
+          Archive de préservation · PS2 PAL EU · SLES-50382 · 2024
+        </div>
+      </div>
+      <div class="footer-checks">MD5 · SHA1 · CRC32<br>Redump verified · 7×</div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── GALLERY SETUP
+    // ════════════════════════════════════════════════════════
+    // POUR AJOUTER TES PHOTOS : remplace les null par tes liens
+    // Exemple : "https://i.imgur.com/abc123.jpg"
+    //           ou chemin local : "photos/01.jpg"
+    // ════════════════════════════════════════════════════════
+    const galleryImages = [
+      null, // 01
+      null, // 02
+      null, // 03
+      null, // 04
+      null, // 05
+      null, // 06
+      null, // 07
+      null, // 08
+      null, // 09
+      null, // 10
+      null, // 11
+      null, // 12
+      null, // 13
+      null, // 14
+      null, // 15
+      null, // 16
+      null, // 17
+      null, // 18
+      null, // 19
+      null, // 20
+      null, // 21
+      null, // 22
+      null, // 23
+      null, // 24
+      null, // 25
+      null, // 26
+      null, // 27
+      null, // 28
+      null, // 29
+      null, // 30
+      null, // 31
+      null, // 32
+      null, // 33
+    ];
+
+    let lightboxIndex = 0;
+    const filled = galleryImages.filter(Boolean);
+
+    function buildGallery() {
+      const grid = document.getElementById('gallery-grid');
+      grid.innerHTML = '';
+      galleryImages.forEach((src, i) => {
+        const slot = document.createElement('div');
+        slot.className = 'g-slot';
+        if (src) {
+          slot.innerHTML = `
+            <img src="${src}" alt="Photo ${i+1}">
+            <div class="g-overlay"><span>AGRANDIR</span></div>
+          `;
+          slot.addEventListener('click', () => openLightbox(i));
+        } else {
+          slot.innerHTML = `<div class="g-placeholder"><span class="ico">📷</span>PHOTO ${String(i+1).padStart(2,'0')}</div>`;
+        }
+        grid.appendChild(slot);
+      });
+
+      const count = galleryImages.filter(Boolean).length;
+      document.getElementById('gallery-count').textContent = `${count} / 33 · boîtier · disques · manuel complet`;
+    }
+
+    function openLightbox(index) {
+      // Only open if image exists
+      if (!galleryImages[index]) return;
+      lightboxIndex = index;
+      document.getElementById('lightbox-img').src = galleryImages[index];
+      const filled = galleryImages.map((s,i) => s ? i : null).filter(v => v !== null);
+      const pos = filled.indexOf(index) + 1;
+      document.getElementById('lightbox-counter').textContent = `${pos} / ${filled.length}`;
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('lightbox')) return;
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    function navLightbox(dir) {
+      const filled = galleryImages.map((s,i) => s ? i : null).filter(v => v !== null);
+      const cur = filled.indexOf(lightboxIndex);
+      const next = filled[(cur + dir + filled.length) % filled.length];
+      if (next !== undefined) openLightbox(next);
+    }
+
+    document.addEventListener('keydown', e => {
+      const lb = document.getElementById('lightbox');
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') lb.classList.remove('open');
+      if (e.key === 'ArrowRight') navLightbox(1);
+      if (e.key === 'ArrowLeft') navLightbox(-1);
+    });
+
+    buildGallery();
+
+    // Dark mode toggle
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark');
+      document.getElementById('theme-btn').textContent = isDark ? '○ LIGHT' : '◐ DARK';
+    }
+
+    // Disc photo lightbox
+    function openSinglePhoto(imgId) {
+      const img = document.getElementById(imgId);
+      if (!img || !img.src || img.style.display === 'none') return;
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-counter').textContent = img.alt;
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('section').forEach(s => obs.observe(s));
+
+    // Copy hash
+    function copyHash(id, btn) {
+      const v = document.getElementById(id).textContent.trim();
+      if (v.startsWith('—')) return;
+      navigator.clipboard.writeText(v).then(() => {
+        const lang = document.body.dataset.lang || 'fr';
+        btn.textContent = lang === 'ja' ? 'コピー済' : 'COPIED';
+        btn.classList.add('ok');
+        setTimeout(() => { btn.textContent = btn.dataset[lang] || 'COPY'; btn.classList.remove('ok'); }, 1800);
+      });
+    }
+
+    // Avatar upload
+    function loadAvatar(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = document.getElementById('avatar-img');
+        img.src = ev.target.result;
+        img.style.display = 'block';
+        document.getElementById('avatar-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Lang switch
+    function setLang(lang) {
+      document.body.className = 'lang-' + lang;
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang === 'ja' ? 'ja' : lang;
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        el.innerHTML = el.getAttribute('data-' + lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+    }
+  </script>
+</body>
+</html>
